@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Port Forwarding Form</title>
+    <!-- Include Tailwind CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.0.3/dist/tailwind.min.css" rel="stylesheet">
+</head>
+<body>
+    <div class="container mx-auto mt-5">
+        <h2 class="text-2xl">Apply Port Forwarding</h2>
+        
+        <!-- Display flash messages -->
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                <div class="mb-4">
+                    {% for category, message in messages %}
+                        <div class="alert {{ 'bg-red-500 text-white' if category == 'danger' else 'bg-green-500 text-white' }} p-2 rounded-md">
+                            {{ message }}
+                        </div>
+                    {% endfor %}
+                </div>
+            {% endif %}
+        {% endwith %}
+        
+        <form method="POST" action="/apply_port_forward">
+            <div class="mb-4">
+                <label for="vlan_ip" class="block text-sm font-medium">VLAN IP (e.g., 192.168.x.x):</label>
+                <input type="text" id="vlan_ip" name="vlan_ip" class="input-field p-2 border rounded-md w-full" required>
+            </div>
+            <div class="mb-4">
+                <label for="dst_port" class="block text-sm font-medium">Destination Port:</label>
+                <input type="text" id="dst_port" name="dst_port" class="input-field p-2 border rounded-md w-full" required>
+            </div>
+            <div class="mb-4">
+                <label for="fwd_ip" class="block text-sm font-medium">Forwarding IP:</label>
+                <input type="text" id="fwd_ip" name="fwd_ip" class="input-field p-2 border rounded-md w-full" required>
+            </div>
+            <div class="mb-4">
+                <label for="fwd_port" class="block text-sm font-medium">Forwarding Port:</label>
+                <input type="text" id="fwd_port" name="fwd_port" class="input-field p-2 border rounded-md w-full" required>
+            </div>
+            <div class="mb-4">
+                <label for="protocol" class="block text-sm font-medium">Protocol:</label>
+                <select id="protocol" name="protocol" class="input-field p-2 border rounded-md w-full" required>
+                    <option value="tcp">TCP</option>
+                    <option value="udp">UDP</option>
+                    <option value="tcp_udp">TCP/UDP</option>
+                </select>
+            </div>
+            <div class="mb-4">
+                <label for="name" class="block text-sm font-medium">Rule Name:</label>
+                <input type="text" id="name" name="name" class="input-field p-2 border rounded-md w-full" required>
+            </div>
+            <button type="submit" class="bg-blue-500 text-white p-2 rounded-md">Apply</button>
+        </form>
+    </div>
+</body>
+</html>
